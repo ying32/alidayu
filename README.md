@@ -11,12 +11,30 @@
 
 > go get github.com/ying32/alidayu  
 
+* 方法一：  
 
 ```golang 
 import "github.com/ying32/alidayu"
 
-// mobileNo, signName, templateCode, paramString, appKey, appSecret string
-result, _, err :=  alidayu.SendSMS("13333333333", "验证码", "你的模板id", "{\"number\": \"123456\"}", "你的 appKey", "你的 appSecret string")
-fmt.Println(result)
-fmt.Println(err)
+func main() {
+    result, _, err :=  alidayu.SendSMS("13333333333", "验证码", "你的模板id", "{\"number\": \"123456\"}", "你的 appKey", "你的 appSecret string")
+    fmt.Println(result)
+    fmt.Println(err)
+}
+```
+
+* 方法二：  
+
+```golang 
+import "github.com/ying32/alidayu"
+
+func main() {
+    // 全局设置appKey与appSecret
+    alidayu.AppKey = "你的 appKey"
+    alidayu.AppSecret = "你的 appSecret"
+    // 使用默认的发送
+    result, _, err :=  alidayu.SendSMS2("13333333333", "验证码", "你的模板id", "{\"number\": \"123456\"}")
+    fmt.Println(result)
+    fmt.Println(err)
+}
 ```

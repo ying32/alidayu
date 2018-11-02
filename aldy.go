@@ -3,6 +3,7 @@ package alidayu
 import (
 	"crypto/hmac"
 	"encoding/base64"
+	"errors"
 
 	"crypto/sha1"
 	"encoding/json"
@@ -28,6 +29,11 @@ type sendSmsResponse struct {
 
 const (
 	dyURL = "http://dysmsapi.aliyuncs.com"
+)
+
+// 默认的AppKey和AppSecret
+var (
+	AppKey, AppSecret string
 )
 
 // signHMAC 获取签名
@@ -93,4 +99,12 @@ func SendSMS(mobileNo, signName, templateCode, paramString, appKey, appSecret st
 		return false, "", err
 	}
 	return result.Code == "OK", result.Message, nil
+}
+
+// SendSMS2
+func SendSMS2(mobileNo, signName, templateCode, paramString string) (bool, string, error) {
+	if AppKey == "" || AppSecret == "" {
+		return false, "", errors.New("AppKey和AppSecret不能为空。")
+	}
+	return SendSMS(mobileNo, signName, templateCode, paramString, AppKey, AppSecret)
 }
